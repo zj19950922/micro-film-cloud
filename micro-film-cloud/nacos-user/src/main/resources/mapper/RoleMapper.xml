@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjservice.user.mapper.RoleMapper">
+
+    <!-- 角色表中角色名称验重 -->
+    <select id="checkRepeat" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM tb_role
+        WHERE 1=1
+        <if test="name!='' and name!=null">
+            AND roleName=#{name}
+        </if>
+        <if test="roleId!='' and roleId!=null">
+            AND roleId!=#{roleId}
+        </if>
+    </select>
+
+    <!-- j角色表中角色信息新增 -->
+    <insert id="insert">
+        INSERT INTO tb_role (roleId, roleName, status, dataPermission, operation, createTime, remark)
+        VALUES (#{roleId},#{roleName},#{status},#{dataPermission},#{operation},CURRENT_TIME,#{remark})
+    </insert>
+
+    <!-- 角色表中角色信息修改 -->
+    <update id="modify">
+        UPDATE tb_role SET roleName=#{roleName}, status=#{status}, dataPermission=#{dataPermission},
+                           createTime=CURRENT_TIME,operation=#{operation}, remark=#{remark}
+        WHERE roleId=#{roleId} and operation=true
+    </update>
+
+    <!-- 角色表中角色信息删除 -->
+    <!-- 查询当前角色是否已经赋值给用户了 -->
+    <select id="queryChild" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM tb_role WHERE roleId=#{id}
+    </select>
+    <delete id="delete">
+        DELETE FROM tb_role WHERE roleId=#{id} and operation=true
+    </delete>
+
+    <!-- 角色表中角色信息条件查询 -->
+    <select id="queryTotal" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM tb_role
+        WHERE 1=1
+        <!-- 此处写分页查询的条件 start -->
+        <!-- 此处写分页查询的条件 end -->
+    </select>
+    <select id="query" resultType="com.zjservice.user.pojo.role.Role">
+        SELECT * FROM  tb_role
+        WHERE 1=1
+        <!-- 此处写分页查询的条件 start -->
+        <!-- 此处写分页查询的条件 end -->
+        <if test="queryCondition.size!=0">
+            LIMIT #{queryCondition.page},#{queryCondition.size}
+        </if>
+    </select>
+
+    <!-- 用户新增/修改时获取角色 -->
+    <select id="queryRoleForSelect" resultType="com.zjservice.common.entity.BaseSelect">
+        SELECT roleId AS value,roleName AS label FROM tb_role
+        WHERE status=true
+    </select>
+
+    <!-- 获取当前角色的菜单级联表 -->
+    <select id="queryAuthToRole" resultType="com.zjservice.common.entity.Cascade">
+        SELECT b.menuId AS value,b.name AS label,b.pid AS pId FROM tb_role_menu a,tb_menu b
+        WHERE a.menuId=b.menuId AND a.roleId=#{roleId}
+    </select>
+
+    <!-- 获取当前可用的全部菜单权限 -->
+    <select id="queryAllMenuAuth" resultType="com.zjservice.common.entity.Cascade">
+        SELECT menuId AS value,name AS label,pid AS pId FROM tb_menu;
+    </select>
+
+    <!-- 批量新增/修改用户的菜单权限 -->
+    <insert id="insertAuthToRole">
+        insert into tb_role_menu (roleId, menuId) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{roleId},#{item})
+        </foreach>
+    </insert>
+
+    <delete id="deleteAuthToRole">
+        DELETE FROM tb_role_menu WHERE roleId=#{roleId}
+        <if test="menuId!='' and menuId!=null">
+            AND menuId=#{menuId}
+        </if>
+    </delete>
+
+</mapper>

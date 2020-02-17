@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjservice.user.mapper.MenuMapper">
+
+    <!-- 获取可用父级目录和菜单 -->
+    <select id="queryCascade" resultType="com.zjservice.common.entity.Cascade">
+        SELECT menuId AS value,name AS label,pid AS pId FROM tb_menu WHERE type BETWEEN 0 AND 1;
+    </select>
+
+    <!-- 菜单表中菜单名称验重 -->
+    <select id="checkRepeat" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM tb_menu
+        WHERE 1=1
+        <if test="name!='' and name!=null">
+            AND name=#{name}
+        </if>
+        <if test="title!='' and title!=null">
+            AND title=#{title}
+        </if>
+        <if test="menuId!='' and menuId!=null">
+            AND menuId!=#{menuId}
+        </if>
+    </select>
+
+    <!-- 菜单表中菜单信息新增 -->
+    <insert id="insert">
+        INSERT INTO tb_menu (menuId, path, component, redirect, title, icon, name, noCache,
+                             hidden, type, permission, sort, pid, isFrame, operation)
+        VALUES (#{menuId},#{path},#{component},#{redirect},#{title},#{icon},#{name},#{noCache},
+                #{hidden},#{type},#{permission},#{sort},#{pid},#{isFrame},#{operation})
+    </insert>
+
+    <!-- 菜单表中菜单信息修改 -->
+    <update id="modify">
+        UPDATE tb_menu SET path=#{path}, component=#{component}, redirect=#{redirect}, title=#{title}, icon=#{icon},
+                           noCache=#{noCache}, name=#{name}, hidden=#{hidden}, type=#{type}, permission=#{permission},
+                           sort=#{sort}, pid=#{pid}, isFrame=#{isFrame}, operation=#{operation}
+        WHERE menuId=#{menuId} and operation=true
+    </update>
+
+    <!-- 菜单表中菜单信息删除 -->
+    <select id="queryChild" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM tb_menu WHERE pid=#{id}
+    </select>
+    <delete id="delete">
+        DELETE FROM tb_menu WHERE menuId=#{id} and operation=true
+    </delete>
+
+    <!-- 菜单表中菜单信息条件查询 -->
+    <select id="queryTotal" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM tb_menu
+        WHERE 1=1
+        <!-- 此处写分页查询的条件 start -->
+        <!-- 此处写分页查询的条件 end -->
+    </select>
+    <select id="query" resultType="com.zjservice.user.pojo.menu.Menu">
+        SELECT * FROM  tb_menu
+        WHERE 1=1
+        <!-- 此处写分页查询的条件 start -->
+        <!-- 此处写分页查询的条件 end -->
+        <if test="queryCondition.size!=0">
+            LIMIT #{queryCondition.page},#{queryCondition.size}
+        </if>
+    </select>
+
+    <!-- 菜单表中菜单信息级联查询 -->
+    <select id="queryMenuCascade" resultType="com.zjservice.user.pojo.menu.MenuTree">
+        SELECT *,pid as parentId,menuId as value FROM  tb_menu order by sort
+    </select>
+
+</mapper>

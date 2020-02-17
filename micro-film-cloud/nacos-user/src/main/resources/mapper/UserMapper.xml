@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjservice.user.mapper.UserMapper">
+
+    <!-- 用户表中用户名称验重 -->
+    <select id="checkRepeat" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM tb_user
+        WHERE 1=1
+        <if test="name!='' and name!=null">
+            AND userName=#{name}
+        </if>
+        <!-- 修改时对修改的名称进行验重 -->
+        <if test="userId!='' and userId!=null">
+            AND userId!=#{userId}
+        </if>
+    </select>
+
+    <!-- 用户表中用户信息新增 -->
+    <insert id="insert">
+        INSERT INTO tb_user (userId, userName, password, status, deleteStatus, orgId, operation, createTime, remark)
+        VALUES (#{userId},#{userName},#{password},#{status},#{deleteStatus},#{orgId},#{operation},CURRENT_TIME,#{remark})
+    </insert>
+
+    <!-- 用户表中用户信息修改 -->
+    <update id="modify">
+        UPDATE tb_user
+        SET userName=#{userName}, status=#{status}, deleteStatus=#{deleteStatus},
+            orgId=#{orgId}, operation=#{operation}, createTime=CURRENT_TIME, remark=#{remark}
+        <if test="password!='' and password!=null">
+            , password=#{password}
+        </if>
+        WHERE userId=#{userId} and operation=true
+    </update>
+
+    <!-- 用户表中用户信息删除 -->
+    <!-- 查询当前用户是否已经赋予机构了 -->
+    <select id="queryChild" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM tb_user as a,tb_org as b WHERE a.userId=#{id} AND a.orgId=b.orgId
+    </select>
+    <update id="deleteUser">
+        UPDATE tb_user SET deleteStatus=true WHERE userId=#{userId} and operation=true
+    </update>
+
+    <!-- 用户表中用户信息条件查询 -->
+    <select id="queryTotal" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM tb_user
+        WHERE deleteStatus=false
+        <!-- 此处写分页查询的条件 start -->
+        <!-- 此处写分页查询的条件 end -->
+    </select>
+    <select id="query" resultType="com.zjservice.user.pojo.user.User">
+        SELECT a.userId, a.userName, a.status, a.deleteStatus, a.orgId, a.operation, a.createTime, a.remark,b.orgName
+        FROM  tb_user a left join tb_org b
+        ON a.orgId=b.orgId
+        WHERE deleteStatus=false
+        <!-- 此处写分页查询的条件 start -->
+        <!-- 此处写分页查询的条件 end -->
+        <if test="queryCondition.size!=0">
+            LIMIT #{queryCondition.page},#{queryCondition.size}
+        </if>
+    </select>
+
+    <!-- 查询当前用户已有的角色 -->
+    <select id="queryUserOfRole" resultType="com.zjservice.common.entity.BaseSelect">
+        SELECT a.roleId AS value,a.roleName AS label FROM tb_role as a,tb_user_role b
+        WHERE a.status=true AND a.roleId=b.roleId AND b.userId=#{userId}
+    </select>
+
+    <!-- 批量新增/修改用户的角色-->
+    <insert id="insertRoleToUser">
+        insert into tb_user_role (userId, roleId) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{userId},#{item})
+        </foreach>
+    </insert>
+
+    <!-- 删除用户的全部角色 -->
+    <delete id="deleteRoleToUser">
+        DELETE FROM tb_user_role WHERE userId=#{userId}
+        <if test="roleId!='' and roleId!=null">
+            AND roleId=#{roleId}
+        </if>
+    </delete>
+
+</mapper>

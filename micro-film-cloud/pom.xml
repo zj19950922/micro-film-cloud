@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.zjservice</groupId>
+    <artifactId>micro-film-cloud</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0.0</version>
+    <modules>
+        <module>nacos-common</module>
+        <module>nacos-gateway</module>
+        <module>nacos-test</module>
+        <module>nacos-user</module>
+    </modules>
+    <name>micro-film-cloud</name>
+    <description>微服务架构模板</description>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.2.4.RELEASE</version>
+    </parent>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <spring-cloud.version>Hoxton.SR1</spring-cloud.version>
+        <com-alibaba-cloud.version>2.1.1.RELEASE</com-alibaba-cloud.version>
+        <log4jdbc.version>1.16</log4jdbc.version>
+        <swagger.version>2.9.2</swagger.version>
+        <fastjson.version>1.2.33</fastjson.version>
+        <druid.version>1.1.10</druid.version>
+        <commons-pool2.version>2.7.0</commons-pool2.version>
+        <swagger-bootstrap-ui.version>1.9.6</swagger-bootstrap-ui.version>
+        <jjwt.version>0.9.0</jjwt.version>
+        <hutool.version>5.0.6</hutool.version>
+        <mysql.version>8.0.18</mysql.version>
+        <mybatis.version>2.1.0</mybatis.version>
+    </properties>
+
+    <dependencies>
+        <!-- 引入对象快捷构造——开始 -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!-- 引入对象快捷构造——结束 -->
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${com-alibaba-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <repositories>
+        <repository>
+            <id>public</id>
+            <name>aliyun nexus</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+    </repositories>
+
+    <build>
+        <plugins>
+            <!-- 打包时跳过测试 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>public</id>
+            <name>aliyun nexus</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+</project>

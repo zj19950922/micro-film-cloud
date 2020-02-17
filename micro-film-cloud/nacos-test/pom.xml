@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>micro-film-cloud</artifactId>
+        <groupId>com.zjservice</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>nacos-test</artifactId>
+    <version>1.0.0</version>
+    <name>nacos-test</name>
+    <description>路由网关模块</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.zjservice</groupId>
+            <artifactId>nacos-common</artifactId>
+            <version>1.0.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-starter-security</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-data-redis</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-cache</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>mysql</groupId>
+                    <artifactId>mysql-connector-java</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.mybatis.spring.boot</groupId>
+                    <artifactId>mybatis-spring-boot-starter</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.alibaba</groupId>
+                    <artifactId>druid-spring-boot-starter</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <!-- 不指定单元测试 -->
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+        </plugins>
+        <!-- 产生的构件的文件名，默认值是${artifactId}-${version}。 -->
+        <finalName>nacos-user</finalName>
+    </build>
+
+</project>

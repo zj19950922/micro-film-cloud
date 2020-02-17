@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>micro-film-cloud</artifactId>
+        <groupId>com.zjservice</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>nacos-common</artifactId>
+    <version>1.0.0</version>
+    <name>nacos-common</name>
+    <description>公共模块</description>
+
+    <dependencies>
+
+        <!-- 工具包 start -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
+        <!-- 工具包 end -->
+
+        <!-- undertow服务器 start -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
+        </dependency>
+        <!-- undertow服务器 end -->
+
+        <!-- 权限认证 start -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-security</artifactId>
+        </dependency>
+        <!-- 权限认证 start -->
+
+        <!-- nacos配置中心 start -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-alibaba-nacos-config</artifactId>
+        </dependency>
+        <!-- nacos配置中心 end -->
+
+        <!-- nacos服务注册客户端 start -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <!-- nacos服务注册客户端 end -->
+
+        <!-- 各服务间的内部通信工具 start -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <!-- 各服务间的内部通信工具 end -->
+
+        <!-- springboot-admin项目监控客户端 start -->
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-client</artifactId>
+            <version>2.2.0</version>
+        </dependency>
+        <!-- springboot-admin项目监控客户端 end -->
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
+        <!-- spring cache start -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+        <!-- spring cache end -->
+
+        <!-- spring2.0集成redis所需common-pool2 start -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+            <version>${commons-pool2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <!-- spring2.0集成redis所需common-pool2 end -->
+
+        <!-- 引入Swagger2依赖 start -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>swagger-bootstrap-ui</artifactId>
+            <version>${swagger-bootstrap-ui.version}</version>
+        </dependency>
+        <!--引入Swagger2依赖 end -->
+
+        <!-- Mysql依赖包 start-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+            <version>${mysql.version}</version>
+        </dependency>
+        <!-- Mysql依赖包 end-->
+
+        <!-- mybatis启动包 start -->
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>${mybatis.version}</version>
+        </dependency>
+        <!-- mybatis启动包 end -->
+
+        <!-- druid数据源驱动 start -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>${druid.version}</version>
+        </dependency>
+        <!-- druid数据源驱动 end -->
+
+        <!-- 引入jwt的验证 start -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>${jjwt.version}</version>
+        </dependency>
+        <!-- 引入jwt的验证 end -->
+
+        <!-- 引入阿里的json数据格式 start -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
+        <!-- 引入阿里的json数据格式 end -->
+
+        <!-- 端点监控 start -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <!-- 端点监控 end -->
+
+    </dependencies>
+
+
+</project>

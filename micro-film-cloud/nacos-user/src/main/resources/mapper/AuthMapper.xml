@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjservice.user.mapper.AuthMapper">
+
+    <!-- 登录验证 -->
+    <select id="checkLogin" resultType="java.lang.String">
+        SELECT userId FROM tb_user WHERE userName=#{userName} AND password=#{password}
+    </select>
+
+    <!-- 获取当前用户所有角色 -->
+    <select id="queryUserOfRole" resultType="com.zjservice.common.entity.BaseSelect">
+        SELECT a.roleId AS value,a.roleName AS label FROM tb_role as a,tb_user_role b
+        WHERE a.status=true AND a.roleId=b.roleId AND b.userId=#{userId}
+    </select>
+
+    <!-- 获取当前角色所有权限菜单 -->
+    <select id="queryAuthToRole" resultType="com.zjservice.user.pojo.menu.MenuTree">
+        SELECT b.pid as parentId,b.menuId as value ,b.* FROM tb_role_menu a,tb_menu b
+        WHERE a.menuId=b.menuId AND a.roleId=#{roleId}
+    </select>
+
+</mapper>

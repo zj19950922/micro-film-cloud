@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjservice.user.mapper.OrgMapper">
+
+    <!-- 获取可用上级机构 -->
+    <select id="queryCascade" resultType="com.zjservice.common.entity.Cascade">
+        SELECT orgId AS value,orgName AS label,orgPid AS pId FROM tb_org WHERE status=true
+    </select>
+
+    <!-- 机构表中机构名称验重 -->
+    <select id="checkRepeat" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM tb_org
+        WHERE 1=1
+        <if test="name!='' and name!=null">
+            AND orgName=#{name}
+        </if>
+        <if test="orgId!='' and orgId!=null">
+            AND orgId!=#{orgId}
+        </if>
+    </select>
+
+    <!-- 机构表中机构信息新增 -->
+    <insert id="insert">
+        INSERT INTO tb_org (orgId, orgName, orgPid, status, createTime, operation, sort)
+        VALUES (#{orgId},#{orgName},#{orgPid},#{status},CURRENT_TIME,#{operation},#{sort})
+    </insert>
+
+    <!-- 机构表中机构信息修改 -->
+    <update id="modify">
+        UPDATE tb_org SET orgName=#{orgName}, orgPid=#{orgPid}, status=#{status}, createTime=CURRENT_TIME,
+                          operation=#{operation}, sort=#{sort}
+        WHERE orgId=#{orgId} and operation=true
+    </update>
+
+    <!-- 机构表中机构信息删除 -->
+    <select id="queryChild" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM tb_org WHERE orgPid=#{id}
+    </select>
+    <delete id="delete">
+        DELETE FROM tb_org WHERE orgId=#{id} and operation=true
+    </delete>
+
+    <!-- 机构表中机构信息条件查询 -->
+    <select id="queryTotal" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM tb_menu
+        WHERE 1=1
+        <!-- 此处写分页查询的条件 start -->
+        <!-- 此处写分页查询的条件 end -->
+    </select>
+    <select id="query" resultType="com.zjservice.user.pojo.menu.Menu">
+        SELECT * FROM  tb_menu
+        WHERE 1=1
+        <!-- 此处写分页查询的条件 start -->
+        <!-- 此处写分页查询的条件 end -->
+        <if test="queryCondition.size!=0">
+            LIMIT #{queryCondition.page},#{queryCondition.size}
+        </if>
+    </select>
+
+    <!-- 机构表中机构信息级联查询 -->
+    <select id="queryOrgCascade" resultType="com.zjservice.user.pojo.org.OrgTree">
+        SELECT *,orgPid as parentId,orgId as value FROM  tb_org order by sort
+    </select>
+
+    <select id="queryOrgToUser" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM tb_user WHERE orgId=#{param}
+    </select>
+
+</mapper>

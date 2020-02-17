@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjservice.gateway.mapper.OperationMapper">
+
+    <insert id="addOperationLog" parameterType="com.zjservice.gateway.pojo.OperationLog">
+        INSERT INTO tb_user_log (UserName, VisitorTime, VisitorService, VisitorUrl, Method, RemoteAddress)
+        VALUES (#{userName},CURRENT_TIME,#{visitorService},#{visitorUrl},#{visitorMethod},#{remoteAddress})
+    </insert>
+
+</mapper>
