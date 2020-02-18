@@ -11,7 +11,6 @@
     <modules>
         <module>nacos-common</module>
         <module>nacos-gateway</module>
-        <module>nacos-test</module>
         <module>nacos-user</module>
     </modules>
     <name>micro-film-cloud</name>
