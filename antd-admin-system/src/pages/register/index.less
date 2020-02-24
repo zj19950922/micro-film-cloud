@@ -1,0 +1,44 @@
+@import '../../style/color.less';
+
+.register{
+
+    height: calc(100vh);
+
+    .register-header{
+
+        height: calc(15vh);
+
+    }
+
+    .reagister-card{
+        
+        @length: calc(~"20% + 500px");
+        width: @length;
+        margin-left: calc(~"40% - 250px");
+
+        .ant-card-head-title {
+            font-size: 30px;
+            color: red;
+        }
+
+        .ant-card-head {
+
+            line-height: 40px;
+            text-align: center;
+
+        }
+
+        .reagister-card-form{
+            
+            margin-left: calc(~'50% - 250px');
+            width: 500px;
+
+            .is-exist{
+                float: right;
+            }
+
+        }
+
+    }
+
+}

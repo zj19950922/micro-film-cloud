@@ -1,0 +1,83 @@
+@import '../../style/color.less';
+
+.header{
+    background-color: @colorK;
+    .header-top{
+        height: 60px;
+        // 行高,垂直方向居中
+        line-height: 60px;
+        padding: 0 20px;
+        .header-right{
+            float: right;
+            position:relative;
+            margin-left: 10px;
+            .header-menu{
+                .header-name{
+                    color: black;
+                    cursor: pointer;
+                    padding-top: 25px;
+                    padding-bottom: 20px;
+                    padding-left: 5px;
+                }
+                .header-name:hover{
+                    color: darkorange;
+                }
+            }
+            .folderMenu{
+                display:none;
+                position:absolute;
+                right: 0;
+                z-index:999;
+                .ul{
+                    width: 120px;
+                    background-color: #fff;
+                    padding: 10px;
+                    border-radius: 8px;
+                    -webkit-box-shadow: 0 5px 10px 0 rgba(12,40,46,0.20);
+                    box-shadow: 0 5px 10px 0 rgba(12,40,46,0.20);
+                    text-align: center;
+                    li{              
+                        list-style: none;
+                        height: 40px;
+                        display: list-item;
+                        cursor: pointer;
+                    }
+                    li:hover{
+                        color: darkorange;
+                    }
+                }
+            }
+        }
+    }    
+    .breadcrumb{
+        height: 40px;
+        line-height: 40px;
+        padding: 0 20px;
+        border-top: 1px solid @colorH;
+        .breadcrumb-title{
+            font-size: 18px;
+            text-align: left;
+            height: 41.5px;
+            .breadcrumb-title-path{
+                margin: 8px 0;
+            }
+        }
+        .weather{
+            text-align: right;
+            .date{
+                margin-right: 10px;
+                vertical-align: middle;
+                font-size: 15px;
+            }
+            .weather-img{
+                img{
+                    height: 20px;
+                }
+            }
+            .weather-detail{
+                margin-left: 5px;
+                vertical-align: middle;
+            }
+        }
+    }
+}

@@ -1,0 +1,22 @@
+@import '../style/color.less';
+
+.container{
+    min-height: 943px;
+    .nav-left{
+        min-height: 943px;
+        background-color: @colorM;
+        color: @colorK;
+        // 使用calc计算:100vh=100%,可以实现加减乘除
+        height: calc(100vh);
+    }
+    .main{
+        height: calc(100vh);
+        background-color: @colorN;
+        min-height: 943px;
+    }
+    .content{
+        position: relative;
+        padding: 20px;
+        height: calc(~"86% - 40px");
+    }
+}

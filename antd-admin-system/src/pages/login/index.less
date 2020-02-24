@@ -1,0 +1,33 @@
+@import '../../style/color.less';
+
+.login{
+    height: calc(100vh);
+    background-color: #333;
+    .login-header{
+        line-height: calc(50vh+10px);
+        text-align: center;
+        width: 400px;
+        margin-left: calc(~"50% - 200px");
+        font-size: 30px;
+        margin-bottom: 30px;
+        color: @colorK;
+        height: calc(40vh);   
+    }
+    .login-form{  
+        width: 300px;
+        margin-left: calc(~"50% - 150px");
+        .remember{
+            color: @colorO;
+        }
+        .forget{
+            float: right;
+        }
+        .login-form-button{
+            width: 150px;
+        }
+        .login-form-register{
+            float: right;
+        }
+    }
+    
+}
