@@ -1,8 +1,13 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## 项目介绍
 
-In the project directory, you can run:
+该项目为基于react+antd的用户权限管理系统前端项目，该仓库中的micro-film-cloud为后端项目；
+后端使用springcloud+nacos+gateway架构，前端使用react+antd构建。整个项目主要是围绕用户的权限管理和动态菜单显示而制作。
+
+## 可用脚本
+
+在项目中你可以使用以下命令来运行：
 
 ### `yarn start`
 
