@@ -20,6 +20,10 @@ const menuList = [
     "tags",
     "history",
     "safety",
+    "profile",
+    "file",
+    "alert",
+    "folder"
 ];
 
 export default menuList;

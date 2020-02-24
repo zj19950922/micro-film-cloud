@@ -12,6 +12,8 @@ import OrgManage from '../pages/system/org/index';
 import RoleManage from '../pages/system/role/index';
 import NoMatchPage from '../pages/404/NoMatchPage';
 import Monitor from '../pages/monitor';
+import Swagger from '../pages/document/swagger/index';
+import Druid from '../pages/monitor/druid/index';
 
 export default class RoutePage extends React.Component{
 
@@ -32,6 +34,8 @@ export default class RoutePage extends React.Component{
                                 <Route path="/admin/system/user" component={UserManage} />
                                 <Route path="/admin/system/org" component={OrgManage} />
                                 <Route path="/admin/system/role" component={RoleManage} />
+                                <Route path="/admin/document/swagger" component={Swagger} />
+                                <Route path="/admin/monitor/druid" component={Druid} />
                                 <Route path="/login" component={Login} />
                                 {/** 没有路径的匹配到404页面*/}
                                 <Route component={NoMatchPage}></Route>

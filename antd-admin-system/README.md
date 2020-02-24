@@ -1,28 +1,8 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## 项目介绍
+## Available Scripts
 
-该项目为基于react+antd的用户权限管理系统前端项目，该仓库中的micro-film-cloud为后端项目；
-后端使用springcloud+nacos+gateway架构，前端使用react+antd构建。整个项目主要是围绕用户的权限管理和动态菜单显示而制作，这是初版。
-
-## 图片展示
-
-![image](https://github.com/zj19950922/micro-film-cloud/blob/master/antd-admin-system/picture/login.png)
-![image](https://github.com/zj19950922/micro-film-cloud/blob/master/antd-admin-system/picture/page1.png)
-![image](https://github.com/zj19950922/micro-film-cloud/blob/master/antd-admin-system/picture/page2.png)
-![image](https://github.com/zj19950922/micro-film-cloud/blob/master/antd-admin-system/picture/page3.png)
-![image](https://github.com/zj19950922/micro-film-cloud/blob/master/antd-admin-system/picture/page4.png)
-![image](https://github.com/zj19950922/micro-film-cloud/blob/master/antd-admin-system/picture/page5.png)
-
-后端使用nacos：
-![image](https://github.com/zj19950922/micro-film-cloud/blob/master/antd-admin-system/picture/nacos-1.png)
-![image](https://github.com/zj19950922/micro-film-cloud/blob/master/antd-admin-system/picture/nacos-2.png)
-![image](https://github.com/zj19950922/micro-film-cloud/blob/master/antd-admin-system/picture/nacos-3.png)
-![image](https://github.com/zj19950922/micro-film-cloud/blob/master/antd-admin-system/picture/nacos-4.png)
-
-## 可用脚本
-
-在项目中你可以使用以下命令来运行：
+In the project directory, you can run:
 
 ### `yarn start`
 
