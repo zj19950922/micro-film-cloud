@@ -14,8 +14,9 @@ public interface MenuService extends BaseService<Menu, MenuQueryCondition> {
 
     /**
      * 查询级联的菜单信息
+     * @param menuId 菜单ID
      * @return 级联表
      */
-    RespResult queryMenuCascade();
+    RespResult queryMenuCascade(String menuId);
 
 }

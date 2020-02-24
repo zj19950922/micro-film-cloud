@@ -4,8 +4,8 @@
 <mapper namespace="com.zjservice.user.mapper.AuthMapper">
 
     <!-- 登录验证 -->
-    <select id="checkLogin" resultType="java.lang.String">
-        SELECT userId FROM tb_user WHERE userName=#{userName} AND password=#{password}
+    <select id="checkLogin" resultType="java.util.Map">
+        SELECT userId,status FROM tb_user WHERE userName=#{userName} AND password=#{password} AND deleteStatus=false
     </select>
 
     <!-- 获取当前用户所有角色 -->
@@ -18,6 +18,17 @@
     <select id="queryAuthToRole" resultType="com.zjservice.user.pojo.menu.MenuTree">
         SELECT b.pid as parentId,b.menuId as value ,b.* FROM tb_role_menu a,tb_menu b
         WHERE a.menuId=b.menuId AND a.roleId=#{roleId}
+    </select>
+
+    <select id="queryMenuCascade" resultType="com.zjservice.user.pojo.menu.MenuTree">
+        SELECT *,pid as parentId,menuId as value
+        FROM  tb_menu
+        where
+        type BETWEEN 0 AND 1
+        <if test="menuId!='' and menuId!=null">
+            AND menuId=#{menuId}
+        </if>
+        order by sort
     </select>
 
 </mapper>

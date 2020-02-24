@@ -44,7 +44,7 @@ public class RoleServiceImpl implements RoleService {
         if (checkName > 0){
             return new RespResult(RespCode.CODE_ENUM_FAIL, "角色名称已存在，新增失败");
         }
-        role.setRoleId(idUtil.nextId());
+        role.setRoleId(String.valueOf(idUtil.nextId()));
         int result = roleMapper.insert(role);
         if (result > 0){
             return new RespResult(RespCode.SUCCESS, "新增角色信息成功");
@@ -53,8 +53,10 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public RespResult delete(String param) {
         int result = roleMapper.delete(param);
+        roleMapper.deleteAuthToRole(param, null);
         if (result > 0){
             return new RespResult(RespCode.SUCCESS, "删除角色信息成功");
         }
@@ -99,12 +101,13 @@ public class RoleServiceImpl implements RoleService {
         if (StringUtils.isEmpty(roleId)){
             // roleId为""或者为null，则查询全部可用的权限菜单
             cascades = roleMapper.queryAllMenuAuth();
+            List<Cascade> data = CascadeUtil.getCascade(cascades, "0");
+            return new RespResult(RespCode.SUCCESS, data);
         }else{
             // 获取当前角色的菜单权限
             cascades = roleMapper.queryAuthToRole(roleId);
+            return new RespResult(RespCode.SUCCESS, cascades);
         }
-        List<Cascade> data = CascadeUtil.getCascade(cascades, "0");
-        return new RespResult(RespCode.SUCCESS, data);
     }
 
     @Override

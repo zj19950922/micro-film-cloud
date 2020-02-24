@@ -28,8 +28,9 @@ public interface OrgMapper extends BaseMapper<Org, OrgQueryCondition> {
     /**
      * 查询机构级联数据(不分页)
      * @return 级联数据
+     * @param orgId 机构ID
      */
-    List<OrgTree> queryOrgCascade();
+    List<OrgTree> queryOrgCascade(@Param("orgId") String orgId);
 
     /**
      * 当前机构是否已经赋值给用户

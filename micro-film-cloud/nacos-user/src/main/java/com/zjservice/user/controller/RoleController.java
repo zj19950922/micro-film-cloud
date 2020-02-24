@@ -5,6 +5,7 @@ import com.zjservice.common.entity.RespResult;
 import com.zjservice.user.pojo.org.Org;
 import com.zjservice.user.pojo.query.RoleQueryCondition;
 import com.zjservice.user.pojo.role.Role;
+import com.zjservice.user.pojo.role.RoleAuth;
 import com.zjservice.user.service.OrgService;
 import com.zjservice.user.service.RoleService;
 import io.swagger.annotations.Api;
@@ -52,7 +53,7 @@ public class RoleController {
     }
 
     @PostMapping("/info/query")
-    @ApiOperation(value = "查询角色信息(分页)", position = 4)
+    @ApiOperation(value = "查询角色信息(分页)，传入roleId则获取指定角色信息", position = 4)
     public RespResult query(@RequestBody RoleQueryCondition queryCondition){
         return baseService.query(queryCondition);
     }
@@ -74,15 +75,12 @@ public class RoleController {
     }
 
     @PutMapping("/info/auth")
-    @ApiOperation(value = "修改角色的权限菜单那信息", position = 7)
-    @ApiImplicitParams(
-            @ApiImplicitParam(name = "roleId", value = "角色ID")
-    )
-    public RespResult modifyAuthToRole(@RequestBody List<String> menuId, @RequestParam String roleId){
-        if (StringUtils.isEmpty(roleId)){
+    @ApiOperation(value = "修改角色的权限菜单信息", position = 7)
+    public RespResult modifyAuthToRole(@RequestBody RoleAuth roleAuth){
+        if (StringUtils.isEmpty(roleAuth.getRoleId())){
             return new RespResult(RespCode.MISS_PARAM);
         }
-        return baseService.modifyAuthToRole(menuId, roleId);
+        return baseService.modifyAuthToRole(roleAuth.getMenuId(), roleAuth.getRoleId());
     }
 
 }

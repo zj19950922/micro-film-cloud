@@ -1,5 +1,6 @@
 package com.zjservice.user.pojo.org;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.zjservice.common.entity.BaseCascade;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -45,6 +46,7 @@ public class OrgTree extends BaseCascade<OrgTree> implements Serializable {
 	/**
 	 * 创建/修改时间
 	 */
+	@JsonFormat(shape=JsonFormat.Shape.STRING,pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
 	private Date createTime;
 
 	/**

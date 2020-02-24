@@ -6,6 +6,7 @@ import com.zjservice.user.pojo.query.RoleQueryCondition;
 import com.zjservice.user.pojo.query.UserQueryCondition;
 import com.zjservice.user.pojo.role.Role;
 import com.zjservice.user.pojo.user.User;
+import com.zjservice.user.pojo.user.UserRole;
 import com.zjservice.user.service.RoleService;
 import com.zjservice.user.service.UserService;
 import io.swagger.annotations.Api;
@@ -53,7 +54,7 @@ public class UserController {
     }
 
     @PostMapping("/info/query")
-    @ApiOperation(value = "查询用户信息(分页)", position = 4)
+    @ApiOperation(value = "查询用户信息(分页)，传入userId则获取指定用户信息", position = 4)
     public RespResult query(@RequestBody UserQueryCondition queryCondition){
         queryCondition.setPage(queryCondition.getPage()*queryCondition.getSize());
         queryCondition.setSize((queryCondition.getPage()+1)*queryCondition.getSize());
@@ -71,14 +72,20 @@ public class UserController {
 
     @PutMapping("/info/auth")
     @ApiOperation(value = "修改用户的角色信息", position = 5)
-    @ApiImplicitParams(
-            @ApiImplicitParam(name = "userId", value = "用户ID")
-    )
-    public RespResult modifyRoleToUser(@RequestBody List<String> role, @RequestParam String userId){
+    public RespResult modifyRoleToUser(@RequestBody UserRole userRole){
+        if (StringUtils.isEmpty(userRole.getUserId())){
+            return new RespResult(RespCode.MISS_PARAM);
+        }
+        return baseService.modifyRoleToUser(userRole.getRoles(), userRole.getUserId());
+    }
+
+    @GetMapping("/info/menu")
+    @ApiOperation(value = "查询当前用户拥有的菜单，在用户进行登录和角色判断后调用", position = 5)
+    public RespResult queryUserOfMenu(@RequestParam String userId){
         if (StringUtils.isEmpty(userId)){
             return new RespResult(RespCode.MISS_PARAM);
         }
-        return baseService.modifyRoleToUser(role, userId);
+        return baseService.queryUserOfMenu(userId);
     }
 
 }

@@ -4,9 +4,11 @@ import com.zjservice.common.entity.BaseSelect;
 import com.zjservice.common.entity.RespCode;
 import com.zjservice.common.entity.RespResult;
 import com.zjservice.common.utils.IdUtil;
+import com.zjservice.common.utils.JsonTreeUtil;
 import com.zjservice.common.utils.KemMd5Util;
 import com.zjservice.common.utils.PageUtil;
 import com.zjservice.user.mapper.UserMapper;
+import com.zjservice.user.pojo.menu.MenuTree;
 import com.zjservice.user.pojo.query.UserQueryCondition;
 import com.zjservice.user.pojo.user.User;
 import com.zjservice.user.service.UserService;
@@ -15,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 /**
@@ -37,7 +41,7 @@ public class UserServiceImpl implements UserService {
         if (check > 0){
             return new RespResult(RespCode.CODE_ENUM_FAIL, "用户名已存在，新增失败");
         }
-        user.setUserId(idUtil.nextId());
+        user.setUserId(String.valueOf(idUtil.nextId()));
         // 密码MD5加密
         user.setPassword(KemMd5Util.MD5(user.getPassword()));
         int result = userMapper.insert(user);
@@ -76,6 +80,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public RespResult deleteUser(String userId) {
         int result = userMapper.deleteUser(userId);
         if (result > 0){
@@ -104,6 +109,22 @@ public class UserServiceImpl implements UserService {
             return new RespResult(RespCode.CODE_ENUM_FAIL, "用户授权失败");
         }
         return new RespResult(RespCode.SUCCESS, "用户授权成功");
+    }
+
+    @Override
+    public RespResult queryUserOfMenu(String userId) {
+        // 获取当前用户的全部角色
+        List<BaseSelect> roleList = userMapper.queryUserOfRole(String.valueOf(userId));
+        // 获取角色所拥有的菜单
+        List<MenuTree> dataList = new ArrayList<>();
+        for (BaseSelect data : roleList){
+            List<MenuTree> menuList = userMapper.queryRoleOfMenu(data.getValue());
+            dataList.addAll(menuList);
+        }
+        dataList = new ArrayList<>(new LinkedHashSet<>(dataList));
+        JsonTreeUtil<MenuTree> util = new JsonTreeUtil<>();
+        List<MenuTree> menuList = util.getTree(dataList, "0");
+        return new RespResult(RespCode.SUCCESS, menuList);
     }
 
     @Override

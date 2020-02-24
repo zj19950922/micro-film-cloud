@@ -23,4 +23,11 @@ public interface AuthService {
      * @return 统一json
      */
     RespResult logout(String userName);
+
+    /**
+     * 查询级联的菜单信息
+     * @param menuId 菜单ID
+     * @return 级联表
+     */
+    RespResult queryMenuCascade(String menuId);
 }

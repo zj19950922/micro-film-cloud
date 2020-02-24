@@ -42,12 +42,18 @@
         SELECT COUNT(*) FROM tb_role
         WHERE 1=1
         <!-- 此处写分页查询的条件 start -->
+        <if test="queryCondition.roleId!='' and queryCondition.roleId!=null">
+            AND roleId=#{queryCondition.roleId}
+        </if>
         <!-- 此处写分页查询的条件 end -->
     </select>
     <select id="query" resultType="com.zjservice.user.pojo.role.Role">
         SELECT * FROM  tb_role
         WHERE 1=1
         <!-- 此处写分页查询的条件 start -->
+        <if test="queryCondition.roleId!='' and queryCondition.roleId!=null">
+            AND roleId=#{queryCondition.roleId}
+        </if>
         <!-- 此处写分页查询的条件 end -->
         <if test="queryCondition.size!=0">
             LIMIT #{queryCondition.page},#{queryCondition.size}

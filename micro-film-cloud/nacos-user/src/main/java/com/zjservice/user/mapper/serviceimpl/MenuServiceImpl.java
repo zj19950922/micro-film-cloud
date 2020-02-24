@@ -12,6 +12,7 @@ import com.zjservice.user.pojo.menu.MenuTree;
 import com.zjservice.user.pojo.query.MenuQueryCondition;
 import com.zjservice.user.service.MenuService;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -21,6 +22,7 @@ import java.util.List;
  * @date 2020/2/11 18:23
  * @Description
  */
+@SuppressWarnings("Duplicates")
 @Service
 public class MenuServiceImpl implements MenuService {
 
@@ -93,11 +95,16 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public RespResult queryMenuCascade() {
-        List<MenuTree> dataList = menuMapper.queryMenuCascade();
-        JsonTreeUtil<MenuTree> util = new JsonTreeUtil<>();
-        List<MenuTree> list = util.getTree(dataList, "0");
-        return new RespResult(RespCode.SUCCESS, list);
+    public RespResult queryMenuCascade(String menuId) {
+        if(!StringUtils.isEmpty(menuId)){
+            List<MenuTree> dataList = menuMapper.queryMenuCascade(menuId);
+            return new RespResult(RespCode.SUCCESS, dataList);
+        }else{
+            List<MenuTree> dataList = menuMapper.queryMenuCascade(menuId);
+            JsonTreeUtil<MenuTree> util = new JsonTreeUtil<>();
+            List<MenuTree> list = util.getTree(dataList, "0");
+            return new RespResult(RespCode.SUCCESS, list);
+        }
     }
 
 }

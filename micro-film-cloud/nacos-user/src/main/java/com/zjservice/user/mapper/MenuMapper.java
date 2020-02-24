@@ -28,8 +28,9 @@ public interface MenuMapper extends BaseMapper<Menu, MenuQueryCondition> {
 
     /**
      * 查询菜单级联
+     * @param menuId 菜单ID
      * @return 菜单级联
      */
-    List<MenuTree> queryMenuCascade();
+    List<MenuTree> queryMenuCascade(String menuId);
 
 }

@@ -53,8 +53,8 @@ public class MenuController {
 
     @GetMapping("/info")
     @ApiOperation(value = "查询菜单信息(级联不分页)", position = 5)
-    public RespResult queryMenuCascade(){
-        return baseService.queryMenuCascade();
+    public RespResult queryMenuCascade(@RequestParam(defaultValue = "", required = false) String menuId){
+        return baseService.queryMenuCascade(menuId);
     }
 
 }

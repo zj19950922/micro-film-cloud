@@ -1,6 +1,8 @@
 package com.zjservice.user.pojo.visitlog;
 
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -26,6 +28,7 @@ public class VisitLog implements Serializable {
 	/**
 	 * 访问时间
 	 */
+	@JsonFormat(shape=JsonFormat.Shape.STRING,pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
 	private Date visitorTime;
 
 	/**

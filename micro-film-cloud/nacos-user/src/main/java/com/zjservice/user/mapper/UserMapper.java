@@ -2,6 +2,7 @@ package com.zjservice.user.mapper;
 
 import com.zjservice.common.base.BaseMapper;
 import com.zjservice.common.entity.BaseSelect;
+import com.zjservice.user.pojo.menu.MenuTree;
 import com.zjservice.user.pojo.query.UserQueryCondition;
 import com.zjservice.user.pojo.user.User;
 import org.apache.ibatis.annotations.Mapper;
@@ -55,4 +56,10 @@ public interface UserMapper extends BaseMapper<User, UserQueryCondition> {
      */
     int deleteRoleToUser(@Param("userId") String userId, @Param("roleId") String roleId);
 
+    /**
+     * 查询用户拥有的菜单
+     * @param roleId 用户ID
+     * @return 数据
+     */
+    List<MenuTree> queryRoleOfMenu(String roleId);
 }

@@ -2,6 +2,7 @@ package com.zjservice.user.pojo.role;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -27,7 +28,7 @@ public class Role implements Serializable {
 	 * 角色ID
 	 */
 	@ApiModelProperty(value = "角色ID[后端自动生成，修改需要携带]", position = 1)
-	private Long roleId;
+	private String roleId;
 
 	/**
 	 * 角色名称(唯一)
@@ -57,6 +58,7 @@ public class Role implements Serializable {
 	 * 创建/修改时间
 	 */
 	@ApiModelProperty(value = "创建/修改时间", position = 6, hidden = true)
+	@JsonFormat(shape=JsonFormat.Shape.STRING,pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
 	private Date createTime;
 
 	/**

@@ -36,6 +36,12 @@ public class AuthController {
         return baseService.login(authLogin);
     }
 
+    @GetMapping("/info")
+    @ApiOperation(value = "查询菜单信息(级联不分页)，也可用于超级管理员在登录后获取全部菜单和获取指定菜单信息", position = 5)
+    public RespResult queryMenuCascade(@RequestParam(defaultValue = "", required = false) String menuId){
+        return baseService.queryMenuCascade(menuId);
+    }
+
     @GetMapping("/logout")
     @ApiOperation(value = "用户登出", position = 2)
     public RespResult logout(@RequestParam String userName){

@@ -22,8 +22,9 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author zj
  * @date 2020/2/12 13:14
- * @Description
+ * @Description 用户登录注销逻辑
  */
+@SuppressWarnings("Duplicates")
 @Service
 public class AuthServiceImpl implements AuthService {
 
@@ -35,32 +36,27 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public RespResult login(AuthLogin authLogin) {
         authLogin.setPassword(KemMd5Util.MD5(authLogin.getPassword()));
-        String userId = authMapper.checkLogin(authLogin);
-        if (StringUtils.isEmpty(userId)){
+        Map<String, Object> userMap = authMapper.checkLogin(authLogin);
+        if (userMap == null){
             return new RespResult(RespCode.LOGIN_ERROR);
+        }
+        Long userId = StringUtils.isEmpty(userMap.get("userId"))?null: (long) userMap.get("userId");
+        boolean status = !StringUtils.isEmpty(userMap.get("status")) && (boolean) userMap.get("status");
+        if (userId == null){
+            return new RespResult(RespCode.LOGIN_ERROR, "当前用户存在异常，请向管理员确认");
         }
         // 生成token
         String token = JwtUtil.generateToken(authLogin.getUserName(), authLogin.getPassword());
 
         // 获取当前用户的全部角色
-        List<BaseSelect> roleList = authMapper.queryUserOfRole(userId);
-
-        // 获取角色所拥有的菜单
-        List<MenuTree> dataList = new ArrayList<>();
-        for (BaseSelect data : roleList){
-            List<MenuTree> menuList = authMapper.queryAuthToRole(data.getValue());
-            dataList.addAll(menuList);
-        }
-        dataList = new ArrayList<>(new LinkedHashSet<>(dataList));
-        JsonTreeUtil<MenuTree> util = new JsonTreeUtil<>();
-        List<MenuTree> menuList = util.getTree(dataList, "0");
+        List<BaseSelect> roleList = authMapper.queryUserOfRole(String.valueOf(userId));
 
         UserLoginInfo userInfo = new UserLoginInfo();
         userInfo.setUserName(authLogin.getUserName());
-        userInfo.setUserId(userId);
+        userInfo.setUserId(String.valueOf(userId));
         userInfo.setRoleList(roleList);
-        userInfo.setMenuList(menuList);
         userInfo.setToken(token);
+        userInfo.setStatus(status);
         // 将数据存入redis中
         redisTemplate.opsForValue().set(authLogin.getUserName()+"_info", userInfo, 30, TimeUnit.MINUTES);
         return new RespResult(RespCode.LOGIN, userInfo);
@@ -70,6 +66,19 @@ public class AuthServiceImpl implements AuthService {
     public RespResult logout(String userName) {
         redisTemplate.expire(userName + "_info", 0, TimeUnit.MINUTES);
         return new RespResult(RespCode.LOGOUT);
+    }
+
+    @Override
+    public RespResult queryMenuCascade(String menuId) {
+        if(!StringUtils.isEmpty(menuId)){
+            List<MenuTree> dataList = authMapper.queryMenuCascade(menuId);
+            return new RespResult(RespCode.SUCCESS, dataList);
+        }else{
+            List<MenuTree> dataList = authMapper.queryMenuCascade(menuId);
+            JsonTreeUtil<MenuTree> util = new JsonTreeUtil<>();
+            List<MenuTree> list = util.getTree(dataList, "0");
+            return new RespResult(RespCode.SUCCESS, list);
+        }
     }
 
 }

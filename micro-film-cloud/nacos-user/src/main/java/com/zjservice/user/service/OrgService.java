@@ -15,7 +15,8 @@ public interface OrgService extends BaseService<Org, OrgQueryCondition> {
     /**
      * 查询级联的机构信息
      * @return 级联表
+     * @param orgId 机构ID
      */
-    RespResult queryOrgCascade();
+    RespResult queryOrgCascade(String orgId);
 
 }

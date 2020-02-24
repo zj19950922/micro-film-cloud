@@ -47,6 +47,9 @@
         SELECT COUNT(*) FROM tb_user
         WHERE deleteStatus=false
         <!-- 此处写分页查询的条件 start -->
+        <if test="queryCondition.userId!='' and queryCondition.userId!=null">
+            AND userId=#{queryCondition.userId}
+        </if>
         <!-- 此处写分页查询的条件 end -->
     </select>
     <select id="query" resultType="com.zjservice.user.pojo.user.User">
@@ -55,6 +58,9 @@
         ON a.orgId=b.orgId
         WHERE deleteStatus=false
         <!-- 此处写分页查询的条件 start -->
+        <if test="queryCondition.userId!='' and queryCondition.userId!=null">
+            AND userId=#{queryCondition.userId}
+        </if>
         <!-- 此处写分页查询的条件 end -->
         <if test="queryCondition.size!=0">
             LIMIT #{queryCondition.page},#{queryCondition.size}
@@ -82,5 +88,11 @@
             AND roleId=#{roleId}
         </if>
     </delete>
+
+    <!-- 获取当前角色所有权限菜单 -->
+    <select id="queryRoleOfMenu" resultType="com.zjservice.user.pojo.menu.MenuTree">
+        SELECT b.pid as parentId,b.menuId as value ,b.* FROM tb_role_menu a,tb_menu b
+        WHERE a.menuId=b.menuId AND a.roleId=#{roleId} AND b.type BETWEEN 0 AND 1
+    </select>
 
 </mapper>

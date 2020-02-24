@@ -54,9 +54,9 @@ public class OrgController {
     }
 
     @GetMapping("/info")
-    @ApiOperation(value = "查询机构信息(级联不分页)", position = 5)
-    public RespResult queryMenuCascade(){
-        return baseService.queryOrgCascade();
+    @ApiOperation(value = "查询机构信息(级联不分页)，也可用于获取指定机构信息信息", position = 5)
+    public RespResult queryMenuCascade(@RequestParam(defaultValue = "", required = false) String orgId){
+        return baseService.queryOrgCascade(orgId);
     }
 
 }

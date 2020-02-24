@@ -19,6 +19,6 @@ public class UserLoginInfo implements Serializable {
     private String userId;
     private String token;
     private List<BaseSelect> roleList;
-    private List<MenuTree> menuList;
+    private boolean status;
 
 }

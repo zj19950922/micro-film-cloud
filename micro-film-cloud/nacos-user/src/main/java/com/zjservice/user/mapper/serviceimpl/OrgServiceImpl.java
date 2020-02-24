@@ -7,12 +7,12 @@ import com.zjservice.common.utils.CascadeUtil;
 import com.zjservice.common.utils.IdUtil;
 import com.zjservice.common.utils.JsonTreeUtil;
 import com.zjservice.user.mapper.OrgMapper;
-import com.zjservice.user.pojo.menu.MenuTree;
 import com.zjservice.user.pojo.org.Org;
 import com.zjservice.user.pojo.org.OrgTree;
 import com.zjservice.user.pojo.query.OrgQueryCondition;
 import com.zjservice.user.service.OrgService;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -48,9 +48,9 @@ public class OrgServiceImpl implements OrgService {
         org.setOrgId(idUtil.nextId());
         int result = orgMapper.insert(org);
         if (result > 0){
-            return new RespResult(RespCode.SUCCESS, "新增菜单成功");
+            return new RespResult(RespCode.SUCCESS, "新增机构成功");
         }
-        return new RespResult(RespCode.CODE_ENUM_FAIL, "新增菜单失败");
+        return new RespResult(RespCode.CODE_ENUM_FAIL, "新增机构失败");
     }
 
     @Override
@@ -92,11 +92,16 @@ public class OrgServiceImpl implements OrgService {
     }
 
     @Override
-    public RespResult queryOrgCascade() {
-        List<OrgTree> dataList = orgMapper.queryOrgCascade();
-        JsonTreeUtil<OrgTree> util = new JsonTreeUtil<>();
-        List<OrgTree> list = util.getTree(dataList, "0");
-        return new RespResult(RespCode.SUCCESS, list);
+    public RespResult queryOrgCascade(String orgId) {
+        if(!StringUtils.isEmpty(orgId)){
+            List<OrgTree> dataList = orgMapper.queryOrgCascade(orgId);
+            return new RespResult(RespCode.SUCCESS, dataList);
+        }else{
+            List<OrgTree> dataList = orgMapper.queryOrgCascade(orgId);
+            JsonTreeUtil<OrgTree> util = new JsonTreeUtil<>();
+            List<OrgTree> list = util.getTree(dataList, "0");
+            return new RespResult(RespCode.SUCCESS, list);
+        }
     }
 
 }

@@ -23,7 +23,7 @@ public class MenuTest {
 
     @Test
     public void test(){
-        System.out.println(menuService.queryMenuCascade());
+        System.out.println(menuService.queryMenuCascade("428707519309942784"));
     }
 
 }

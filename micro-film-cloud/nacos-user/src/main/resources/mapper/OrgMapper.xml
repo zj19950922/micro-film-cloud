@@ -60,9 +60,16 @@
 
     <!-- 机构表中机构信息级联查询 -->
     <select id="queryOrgCascade" resultType="com.zjservice.user.pojo.org.OrgTree">
-        SELECT *,orgPid as parentId,orgId as value FROM  tb_org order by sort
+        SELECT *,orgPid as parentId,orgId as value
+        FROM  tb_org
+        WHERE 1=1
+        <if test="orgId!='' and orgId!=null">
+            AND orgId=#{orgId}
+        </if>
+        order by sort
     </select>
 
+    <!-- 查询当前机构是否存在人员 -->
     <select id="queryOrgToUser" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM tb_user WHERE orgId=#{param}
     </select>

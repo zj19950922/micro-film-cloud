@@ -20,7 +20,7 @@ public class UserInfo implements Serializable {
 	/**
 	 * 用户ID(user表触发生成)
 	 */
-	private Long userId;
+	private String userId;
 
 	/**
 	 * 联系方式-手机

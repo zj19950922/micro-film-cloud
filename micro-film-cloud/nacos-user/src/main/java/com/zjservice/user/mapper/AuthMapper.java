@@ -7,6 +7,7 @@ import com.zjservice.user.pojo.menu.MenuTree;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author zj
@@ -21,7 +22,7 @@ public interface AuthMapper {
      * @param authLogin 登录信息
      * @return 登录验证
      */
-    String checkLogin(AuthLogin authLogin);
+    Map<String, Object> checkLogin(AuthLogin authLogin);
 
     /**
      * 查询当前用户已有的角色
@@ -37,4 +38,10 @@ public interface AuthMapper {
      */
     List<MenuTree> queryAuthToRole(String roleId);
 
+    /**
+     * 查询菜单级联
+     * @param menuId 菜单ID
+     * @return 菜单级联
+     */
+    List<MenuTree> queryMenuCascade(String menuId);
 }

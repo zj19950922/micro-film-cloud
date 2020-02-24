@@ -36,4 +36,10 @@ public interface UserService extends BaseService<User, UserQueryCondition> {
      */
     RespResult modifyRoleToUser(List<String> list, String userId);
 
+    /**
+     * 查询用户拥有的菜单
+     * @param userId 用户ID
+     * @return 数据
+     */
+    RespResult queryUserOfMenu(String userId);
 }

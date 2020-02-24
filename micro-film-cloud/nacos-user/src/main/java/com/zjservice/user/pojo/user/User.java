@@ -2,6 +2,7 @@ package com.zjservice.user.pojo.user;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -26,7 +27,7 @@ public class User implements Serializable {
 	 * 用户ID
 	 */
 	@ApiModelProperty(value = "用户ID[后端自动生成，修改需要携带]", position = 1)
-	private Long userId;
+	private String userId;
 
 	/**
 	 * 用户名(唯一)
@@ -56,7 +57,7 @@ public class User implements Serializable {
 	 * 机构部门ID(机构表的外键)
 	 */
 	@ApiModelProperty(value = "机构部门ID(机构表的外键)", position = 6)
-	private Long orgId;
+	private String orgId;
 
 	/**
 	 * 机构部门
@@ -74,6 +75,7 @@ public class User implements Serializable {
 	 * 创建/修改时间
 	 */
 	@ApiModelProperty(value = "创建/修改时间", position = 8, hidden = true)
+	@JsonFormat(shape=JsonFormat.Shape.STRING,pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
 	private Date createTime;
 
 	/**
