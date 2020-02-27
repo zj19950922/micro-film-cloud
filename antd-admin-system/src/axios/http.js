@@ -4,7 +4,7 @@ import axios from 'axios'
 
 // 创建axios实例
 const service = axios.create({
-  // baseURL: 'http://192.168.2.119:10005',
+  // baseURL: 'http://localhost:11000/api/v1/user',
   baseURL: 'http://localhost:11001', // api的base_url  Vue项目可以根据 process.env.BASE_API，React可以在这里定义
   // baseURL: 'http://www.zjservice.cloud:10005', // api的base_url  Vue项目可以根据 process.env.BASE_API，React可以在这里定义
   timeout: 5000, // 请求超时时间

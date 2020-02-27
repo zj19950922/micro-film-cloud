@@ -23,7 +23,23 @@ const menuList = [
     "profile",
     "file",
     "alert",
-    "folder"
+    "folder",
+    "android",
+    "apple",
+    "windows",
+    "github",
+    "api",
+    "book",
+    "cloud",
+    "environment",
+    "insurance",
+    "mail",
+    "printer",
+    "barcode",
+    "qrcode",
+    "cloud-upload",
+    "audit",
+    "safety-certificate"
 ];
 
 export default menuList;

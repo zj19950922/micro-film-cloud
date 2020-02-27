@@ -1,3 +1,4 @@
+/* eslint-disable strict */
 'use strict';
 
 // Do this as the first thing so that any code reading it knows the right env.
@@ -41,7 +42,7 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
 }
 
 // Tools like Cloud9 rely on this.
-const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 11000;
+const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 11100;
 const HOST = process.env.HOST || '0.0.0.0';
 
 if (process.env.HOST) {
