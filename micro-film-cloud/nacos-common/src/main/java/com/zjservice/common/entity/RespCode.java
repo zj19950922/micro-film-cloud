@@ -25,18 +25,19 @@ public enum RespCode {
     SEND_ERROR(false, 20008, "数据传输失败"),
     OUTOFQUEUE(false, 20009, "超出等待队列"),
     TIMEOUT(false, 20010, "请求超时，请稍后重试"),
-    CODE_HYSTRIX(false, 20011, "服务繁忙，请稍后再试"),
+    CODE_HYSTRIX(false, 20011, "服务繁忙或者服务端发生异常，请稍后再试"),
     REMOTE_CONNECT_FAIL(false, 20013, "远程连接失败"),
     CODE_ENUM_FAIL(false, 20014, "请求失败"),
     EXCEPTION(false, 20015, "请求处理异常，请稍后再试"),
     REJECT(false, 20016,"服务器拒绝请求"),
     SERVICE_NO_ENABLE(false, 20018, "服务不可用"),
-    TOKEN_UNUSE(false, 20019,"登录Token过期"),
+    TOKEN_NO_USE(false, 20019,"登录Token过期"),
     USER_NO_LOGIN(false, 20020,"用户未登录"),
     ILLEGAL_TOKEN(false, 20021, "非法token"),
     MISS_TOKEN(false, 20022, "缺失token"),
     MISS_PARAM(false, 20023, "缺少必要参数"),
     API_FORBIDDEN(false, 20024, "API请求拒绝访问"),
+    NO_PERMISSION(false, 20025, "无权限访问"),
     ;
 
     private boolean flag;

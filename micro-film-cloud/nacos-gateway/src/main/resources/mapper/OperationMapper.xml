@@ -4,8 +4,8 @@
 <mapper namespace="com.zjservice.gateway.mapper.OperationMapper">
 
     <insert id="addOperationLog" parameterType="com.zjservice.gateway.pojo.OperationLog">
-        INSERT INTO tb_user_log (UserName, VisitorTime, VisitorService, VisitorUrl, Method, RemoteAddress)
-        VALUES (#{userName},CURRENT_TIME,#{visitorService},#{visitorUrl},#{visitorMethod},#{remoteAddress})
+        INSERT INTO tb_visit_log (Id, UserName, VisitorTime, VisitorService, VisitorUrl, Method, RemoteAddress)
+        VALUES (#{id},#{userName},CURRENT_TIME,#{visitorService},#{visitorUrl},#{visitorMethod},#{remoteAddress})
     </insert>
 
 </mapper>

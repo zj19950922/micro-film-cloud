@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjservice.monitor.mapper.TbVisitLogMapper">
+
+    <resultMap type="com.zjservice.monitor.entity.TbVisitLog" id="TbVisitLogMap">
+        <id property="id" column="Id" jdbcType="VARCHAR"/>
+        <result property="userName" column="UserName" jdbcType="VARCHAR"/>
+        <result property="visitorTime" column="VisitorTime" jdbcType="TIMESTAMP"/>
+        <result property="visitorService" column="VisitorService" jdbcType="VARCHAR"/>
+        <result property="visitorUrl" column="VisitorUrl" jdbcType="VARCHAR"/>
+        <result property="method" column="Method" jdbcType="VARCHAR"/>
+        <result property="remoteAddress" column="RemoteAddress" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="TbVisitLogMap">
+        select
+          Id, UserName, VisitorTime, VisitorService, VisitorUrl, Method, RemoteAddress
+        from tb_visit_log
+        <where>
+            <if test="id != null and id != ''">
+                and Id = #{id}
+            </if>
+            <if test="userName != null and userName != ''">
+                and UserName = #{userName}
+            </if>
+            <if test="visitorTime != null">
+                and VisitorTime = #{visitorTime}
+            </if>
+            <if test="visitorService != null and visitorService != ''">
+                and VisitorService = #{visitorService}
+            </if>
+            <if test="visitorUrl != null and visitorUrl != ''">
+                and VisitorUrl = #{visitorUrl}
+            </if>
+            <if test="method != null and method != ''">
+                and Method = #{method}
+            </if>
+            <if test="remoteAddress != null and remoteAddress != ''">
+                and RemoteAddress = #{remoteAddress}
+            </if>
+        </where>
+        ORDER BY VisitorTime Desc
+        <if test="size != 0">
+            LIMIT #{page},#{size}
+        </if>
+    </select>
+
+    <select id="queryTotal" resultType="java.lang.Integer">
+        select
+        COUNT(*)
+        from tb_visit_log
+        <where>
+            <if test="id != null and id != ''">
+                and Id = #{id}
+            </if>
+            <if test="userName != null and userName != ''">
+                and UserName = #{userName}
+            </if>
+            <if test="visitorTime != null">
+                and VisitorTime = #{visitorTime}
+            </if>
+            <if test="visitorService != null and visitorService != ''">
+                and VisitorService = #{visitorService}
+            </if>
+            <if test="visitorUrl != null and visitorUrl != ''">
+                and VisitorUrl = #{visitorUrl}
+            </if>
+            <if test="method != null and method != ''">
+                and Method = #{method}
+            </if>
+            <if test="remoteAddress != null and remoteAddress != ''">
+                and RemoteAddress = #{remoteAddress}
+            </if>
+        </where>
+    </select>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from tb_visit_log where UserName = #{userName}
+    </delete>
+
+</mapper>

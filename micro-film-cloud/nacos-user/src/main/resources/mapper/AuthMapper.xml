@@ -4,8 +4,18 @@
 <mapper namespace="com.zjservice.user.mapper.AuthMapper">
 
     <!-- 登录验证 -->
-    <select id="checkLogin" resultType="java.util.Map">
-        SELECT userId,status FROM tb_user WHERE userName=#{userName} AND password=#{password} AND deleteStatus=false
+    <select id="checkLogin" resultType="com.zjservice.user.pojo.auth.LoginResponse">
+        SELECT
+            a.userId,
+            a.status,
+            b.image
+        FROM
+            tb_user a
+                LEFT JOIN tb_user_info b ON a.userId = b.userId
+        WHERE
+            userName = #{userName}
+          AND PASSWORD = #{password}
+          AND deleteStatus = FALSE
     </select>
 
     <!-- 获取当前用户所有角色 -->
@@ -29,6 +39,25 @@
             AND menuId=#{menuId}
         </if>
         order by sort
+    </select>
+
+    <select id="queryUserOfPermission" resultType="java.lang.String">
+        SELECT
+            e.permission
+        FROM
+            tb_user a,
+            tb_user_role b,
+            tb_role c,
+            tb_role_menu d,
+            tb_menu e
+        WHERE
+            a.userId = b.userId
+          AND b.roleId = c.roleId
+          AND c.roleId = d.roleId
+          AND d.menuId = e.menuId
+          AND e.permission != ''
+          AND NOT ISNULL(e.permission)
+          AND a.userId = #{userId}
     </select>
 
 </mapper>

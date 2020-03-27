@@ -1,9 +1,9 @@
 package com.zjservice.user.config;
 
+import com.zjservice.user.interceptor.UserInterceptor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 
 /**
  * @author zj
@@ -13,18 +13,36 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class GlobalCorsConfig implements WebMvcConfigurer {
 
+    /**
+     * 解决在springboot的拦截器不能注入redisTemplate
+     * 由于拦截器加载的时间点在springContext之前，所以在拦截器中注入redisTemplate会为null
+     * 所以，就让拦截器执行的时候实例化拦截器Bean，在拦截器配置类里面先实例化拦截器，然后再获取
+     * @return UserInterceptor
+     */
+    @Bean
+    public UserInterceptor getUserInterceptor(){
+        return new UserInterceptor();
+    }
+
     @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        //设置允许跨域的路径
-        registry.addMapping("/**")
-                //设置允许跨域请求的域名
-                .allowedOrigins("*")
-                //是否允许证书 不再默认开启
-                .allowCredentials(true)
-                //设置允许的方法
-                .allowedMethods("*")
-                //跨域允许时间
-                .maxAge(3600);
+    public void addInterceptors(InterceptorRegistry registry) {
+        // 注册TestInterceptor拦截器
+        InterceptorRegistration registration = registry.addInterceptor(getUserInterceptor());
+        registration.addPathPatterns("/**");
+        registration.excludePathPatterns(
+                "/**/*.html",
+                "/**/*.js",
+                "/**/*.css",
+                "/**/*.woff",
+                "/**/*.ttf",
+                "/swagger-resources/**",
+                "/webjars/**",
+                "/v2/**",
+                "/swagger-ui.html/**",
+                "/auth/login",
+                "/auth/logout",
+                "/auth/info"
+        );
     }
 
     /**
@@ -41,5 +59,19 @@ public class GlobalCorsConfig implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
 
     }
+
+    //    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        //设置允许跨域的路径
+//        registry.addMapping("/**")
+//                //设置允许跨域请求的域名
+//                .allowedOrigins("*")
+//                //是否允许证书 不再默认开启
+//                .allowCredentials(true)
+//                //设置允许的方法
+//                .allowedMethods("*")
+//                //跨域允许时间
+//                .maxAge(3600);
+//    }
 
 }

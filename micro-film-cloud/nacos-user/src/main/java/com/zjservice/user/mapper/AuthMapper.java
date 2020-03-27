@@ -1,13 +1,14 @@
 package com.zjservice.user.mapper;
 
 import com.zjservice.common.entity.BaseSelect;
-import com.zjservice.common.entity.Cascade;
 import com.zjservice.user.pojo.auth.AuthLogin;
+import com.zjservice.user.pojo.auth.LoginResponse;
 import com.zjservice.user.pojo.menu.MenuTree;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author zj
@@ -22,7 +23,7 @@ public interface AuthMapper {
      * @param authLogin 登录信息
      * @return 登录验证
      */
-    Map<String, Object> checkLogin(AuthLogin authLogin);
+    LoginResponse checkLogin(AuthLogin authLogin);
 
     /**
      * 查询当前用户已有的角色
@@ -44,4 +45,11 @@ public interface AuthMapper {
      * @return 菜单级联
      */
     List<MenuTree> queryMenuCascade(String menuId);
+
+    /**
+     * 获取指定用户ID的全部权限
+     * @param userId 用户ID
+     * @return 用户权限集合
+     */
+    Set<String> queryUserOfPermission(String userId);
 }

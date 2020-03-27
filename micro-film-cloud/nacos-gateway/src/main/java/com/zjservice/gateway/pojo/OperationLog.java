@@ -12,6 +12,7 @@ import java.io.Serializable;
 @Data
 public class OperationLog implements Serializable {
 
+    private String id;
     /** 用户名*/
     private String userName;
     /** 请求服务*/

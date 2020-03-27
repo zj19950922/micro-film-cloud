@@ -1,5 +1,9 @@
 package com.zjservice.user.controller;
 
+import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.zjservice.common.annotation.RequiredPermission;
+import com.zjservice.common.base.BaseController;
 import com.zjservice.common.entity.RespCode;
 import com.zjservice.common.entity.RespResult;
 import com.zjservice.user.pojo.query.RoleQueryCondition;
@@ -27,19 +31,24 @@ import java.util.List;
 @RestController
 @Api(tags = "用户信息管理")
 @RequestMapping("/user")
-public class UserController {
+@DefaultProperties(defaultFallback = "globalHystrix")
+public class UserController extends BaseController {
 
     @Resource
     private UserService baseService;
 
     @PostMapping("/info")
     @ApiOperation(value = "新增用户信息", position = 1)
+    @RequiredPermission(value = "user:add")
+    @HystrixCommand
     public RespResult insert(@RequestBody User user){
         return baseService.insert(user);
     }
 
     @DeleteMapping("/info")
     @ApiOperation(value = "删除用户信息", position = 2)
+    @RequiredPermission(value = "user:delete")
+    @HystrixCommand
     public RespResult delete(@RequestParam String userId){
         if (StringUtils.isEmpty(userId)){
             return new RespResult(RespCode.MISS_PARAM);
@@ -49,20 +58,23 @@ public class UserController {
 
     @PutMapping("/info")
     @ApiOperation(value = "修改用户信息", position = 3)
+    @RequiredPermission(value = "user:modify")
+    @HystrixCommand
     public RespResult modify(@RequestBody User user){
         return baseService.modify(user);
     }
 
     @PostMapping("/info/query")
     @ApiOperation(value = "查询用户信息(分页)，传入userId则获取指定用户信息", position = 4)
+    @HystrixCommand
     public RespResult query(@RequestBody UserQueryCondition queryCondition){
         queryCondition.setPage(queryCondition.getPage()*queryCondition.getSize());
-        queryCondition.setSize((queryCondition.getPage()+1)*queryCondition.getSize());
         return baseService.query(queryCondition);
     }
 
     @GetMapping("/info/auth")
     @ApiOperation(value = "查询当前用户已有的角色", position = 5)
+    @HystrixCommand
     public RespResult queryUserOfRole(@RequestParam String userId){
         if (StringUtils.isEmpty(userId)){
             return new RespResult(RespCode.MISS_PARAM);
@@ -72,6 +84,8 @@ public class UserController {
 
     @PutMapping("/info/auth")
     @ApiOperation(value = "修改用户的角色信息", position = 5)
+    @RequiredPermission(value = "user:permission")
+    @HystrixCommand
     public RespResult modifyRoleToUser(@RequestBody UserRole userRole){
         if (StringUtils.isEmpty(userRole.getUserId())){
             return new RespResult(RespCode.MISS_PARAM);
@@ -81,6 +95,7 @@ public class UserController {
 
     @GetMapping("/info/menu")
     @ApiOperation(value = "查询当前用户拥有的菜单，在用户进行登录和角色判断后调用", position = 5)
+    @HystrixCommand
     public RespResult queryUserOfMenu(@RequestParam String userId){
         if (StringUtils.isEmpty(userId)){
             return new RespResult(RespCode.MISS_PARAM);
@@ -88,4 +103,8 @@ public class UserController {
         return baseService.queryUserOfMenu(userId);
     }
 
+    @Override
+    public RespResult globalHystrix() {
+        return super.globalHystrix();
+    }
 }

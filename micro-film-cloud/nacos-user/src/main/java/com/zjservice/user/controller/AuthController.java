@@ -1,5 +1,7 @@
 package com.zjservice.user.controller;
 
+import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
+import com.zjservice.common.base.BaseController;
 import com.zjservice.common.entity.RespCode;
 import com.zjservice.common.entity.RespResult;
 import com.zjservice.user.pojo.auth.AuthLogin;
@@ -11,6 +13,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import javafx.beans.DefaultProperty;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +28,8 @@ import java.util.List;
 @RestController
 @Api(tags = "用户登录管理")
 @RequestMapping("/auth")
-public class AuthController {
+@DefaultProperties(defaultFallback = "globalHystrix")
+public class AuthController extends BaseController {
 
     @Resource
     private AuthService baseService;
@@ -51,4 +55,8 @@ public class AuthController {
         return baseService.logout(userName);
     }
 
+    @Override
+    public RespResult globalHystrix() {
+        return super.globalHystrix();
+    }
 }

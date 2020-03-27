@@ -80,7 +80,6 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public RespResult query(RoleQueryCondition queryCondition) {
         queryCondition.setPage(queryCondition.getPage()*queryCondition.getSize());
-        queryCondition.setSize((queryCondition.getPage()+1)*queryCondition.getSize());
         int total = roleMapper.queryTotal(queryCondition);
         List<Role> data = roleMapper.query(queryCondition);
         PageUtil util = new PageUtil();

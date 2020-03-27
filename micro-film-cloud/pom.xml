@@ -12,6 +12,8 @@
         <module>nacos-common</module>
         <module>nacos-gateway</module>
         <module>nacos-user</module>
+        <module>nacos-monitor</module>
+        <module>nacos-file</module>
     </modules>
     <name>micro-film-cloud</name>
     <description>微服务架构模板</description>
@@ -25,7 +27,7 @@
     <properties>
         <java.version>1.8</java.version>
         <spring-cloud.version>Hoxton.SR1</spring-cloud.version>
-        <com-alibaba-cloud.version>2.1.1.RELEASE</com-alibaba-cloud.version>
+        <com-alibaba-cloud.version>2.2.0.RELEASE</com-alibaba-cloud.version>
         <log4jdbc.version>1.16</log4jdbc.version>
         <swagger.version>2.9.2</swagger.version>
         <fastjson.version>1.2.33</fastjson.version>
@@ -36,6 +38,7 @@
         <hutool.version>5.0.6</hutool.version>
         <mysql.version>8.0.18</mysql.version>
         <mybatis.version>2.1.0</mybatis.version>
+        <lombok.version>1.18.10</lombok.version>
     </properties>
 
     <dependencies>
@@ -44,8 +47,10 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
+            <version>${lombok.version}</version>
         </dependency>
         <!-- 引入对象快捷构造——结束 -->
+
     </dependencies>
 
     <dependencyManagement>
@@ -77,19 +82,6 @@
             </releases>
         </repository>
     </repositories>
-
-    <build>
-        <plugins>
-            <!-- 打包时跳过测试 -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
     <pluginRepositories>
         <pluginRepository>

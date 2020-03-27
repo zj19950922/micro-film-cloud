@@ -1,6 +1,7 @@
 package com.zjservice.gateway.exception;
 
 import cn.hutool.core.lang.Assert;
+import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.actuate.autoconfigure.metrics.MetricsProperties;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
@@ -30,7 +31,7 @@ import java.util.Map;
  * @date 2020/2/21 17:14
  * @Description 全局异常处理监听器
  */
-@SuppressWarnings("NullableProblems")
+@SuppressWarnings({"NullableProblems", "AlibabaThreadLocalShouldRemove"})
 @Slf4j
 public class JsonExceptionHandler implements ErrorWebExceptionHandler {
 
@@ -96,9 +97,11 @@ public class JsonExceptionHandler implements ErrorWebExceptionHandler {
         //封装响应体,此body可修改为自己的jsonBody
         Map<String, Object> result = new HashMap<>(2, 1);
         result.put("httpStatus", httpStatus);
-
-        String msg = "{\"flag\":" + false + ",\"code\": \"" + httpStatus+ ",\"msg\": \"" + body + "\"}";
-        result.put("body", msg);
+        JSONObject msg = new JSONObject();
+        msg.put("flag", false);
+        msg.put("code", httpStatus);
+        msg.put("msg", body);
+        result.put("body", msg.toJSONString());
         //错误记录
         ServerHttpRequest request = exchange.getRequest();
         log.error("[全局异常处理]异常请求路径:{},记录异常信息:{}", request.getPath(), ex.getMessage());
