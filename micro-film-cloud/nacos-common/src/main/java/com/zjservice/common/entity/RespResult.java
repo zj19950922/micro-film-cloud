@@ -3,6 +3,7 @@ package com.zjservice.common.entity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -17,6 +18,7 @@ import java.io.Serializable;
 @Getter
 @ToString
 @ApiModel(description = "响应实体类")
+@NoArgsConstructor
 public class RespResult implements Serializable {
 
     @ApiModelProperty(value="请求是否成功", position = 1)

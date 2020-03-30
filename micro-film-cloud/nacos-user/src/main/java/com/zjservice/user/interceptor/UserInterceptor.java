@@ -1,8 +1,9 @@
 package com.zjservice.user.interceptor;
 
-import com.alibaba.fastjson.JSONObject;
 import com.zjservice.common.annotation.RequiredPermission;
 import com.zjservice.common.entity.BaseSelect;
+import com.zjservice.common.entity.RespCode;
+import com.zjservice.common.entity.RespResult;
 import com.zjservice.common.entity.UserLoginInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,26 +38,18 @@ public class UserInterceptor implements HandlerInterceptor {
         // 从 http 请求头中取出 userName
         String userName = request.getHeader("userName");
         if (StringUtils.isEmpty(userName)){
-            JSONObject jsonData = new JSONObject();
             response.setStatus(200);
-            jsonData.put("flag",false);
-            jsonData.put("code",20024);
-            jsonData.put("msg","API请求拒绝访问");
-            jsonData.put("data",null);
-            InterceptorReturnMsg.returnJson(log,response,jsonData.toJSONString());
+            RespResult result = new RespResult(RespCode.API_FORBIDDEN);
+            InterceptorReturnMsg.returnJson(log,response,result.toString());
             return false;
         }
         // 获取redis中对应用户的数据
         UserLoginInfo userInfo = redisTemplate.opsForValue().get(userName+"_info");
         // 判断redis中的用户登录信息是否存在
         if (userInfo == null){
-            JSONObject jsonData = new JSONObject();
             response.setStatus(200);
-            jsonData.put("flag",false);
-            jsonData.put("code",20020);
-            jsonData.put("msg","认证失败，用户登录失效");
-            jsonData.put("data","null");
-            InterceptorReturnMsg.returnJson(log,response,jsonData.toJSONString());
+            RespResult result = new RespResult(RespCode.USER_NO_LOGIN);
+            InterceptorReturnMsg.returnJson(log,response,result.toString());
             return false;
         }
         // 获取当前用户已有的角色集合
@@ -73,13 +66,9 @@ public class UserInterceptor implements HandlerInterceptor {
         if (this.hasPermission(handler, permissions)) {
             return true;
         }
-        JSONObject jsonData = new JSONObject();
+        RespResult result = new RespResult(RespCode.NO_PERMISSION);
         response.setStatus(200);
-        jsonData.put("flag",false);
-        jsonData.put("code",20025);
-        jsonData.put("msg","无权限访问");
-        jsonData.put("data",null);
-        InterceptorReturnMsg.returnJson(log,response,jsonData.toJSONString());
+        InterceptorReturnMsg.returnJson(log,response,result.toString());
         return false;
     }
 

@@ -32,7 +32,7 @@ public enum RespCode {
     REJECT(false, 20016,"服务器拒绝请求"),
     SERVICE_NO_ENABLE(false, 20018, "服务不可用"),
     TOKEN_NO_USE(false, 20019,"登录Token过期"),
-    USER_NO_LOGIN(false, 20020,"用户未登录"),
+    USER_NO_LOGIN(false, 20020,"用户未登录或登录信息失效"),
     ILLEGAL_TOKEN(false, 20021, "非法token"),
     MISS_TOKEN(false, 20022, "缺失token"),
     MISS_PARAM(false, 20023, "缺少必要参数"),

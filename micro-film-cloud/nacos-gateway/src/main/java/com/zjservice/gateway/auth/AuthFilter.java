@@ -40,9 +40,6 @@ import java.util.concurrent.TimeUnit;
 public class AuthFilter implements GlobalFilter, Ordered {
     private static final String[] SKIP_URL = {"login", "logout", "regist", "api-docs", "api-docs-ext"};
 
-    /** 跳过不需要验证的请求地址*/
-    @Value("${auth.skip.urls}")
-    private String[] skipAuthUrls;
     /** 跳过不需要验证的请求方式*/
     @Value("${auth.skip.requestMethods}")
     private String[] skipAuthRequestMethods;
@@ -79,11 +76,6 @@ public class AuthFilter implements GlobalFilter, Ordered {
         // 跳过不需要验证的包含的路径
         for (String skipUrl : SKIP_URL){
             if (url.contains(skipUrl)){
-                return chain.filter(exchange);
-            }
-        }
-        for (String getUrl : skipAuthUrls){
-            if (url.equals(getUrl)){
                 return chain.filter(exchange);
             }
         }
